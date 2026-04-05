@@ -15,10 +15,13 @@ module.exports = (bot) => {
 
       const cmd = require(full);
 
-      if (!cmd.name || !cmd.execute) continue;
+      if (!cmd.name || !cmd.execute){
+        console.log(`❌ | /${cmd.name}`);
+        continue;
+      }
 
       bot.commands.set(cmd.name, cmd);
-
+      console.log(`✅ | /${cmd.name}`);
       if (cmd.aliases) {
         cmd.aliases.forEach(a => bot.commands.set(a, cmd));
       }
