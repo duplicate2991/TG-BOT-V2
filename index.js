@@ -1,3 +1,4 @@
+require("./express");
 const { Bot } = require("grammy");
 
 const { token } = require("./config");
