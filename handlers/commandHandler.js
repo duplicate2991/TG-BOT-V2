@@ -1,42 +1,48 @@
 const fs = require("fs");
 const path = require("path");
+const { isOwner, isAdmin } = require("../utils/permissions");
 
 module.exports = (bot) => {
-  const commands = new Map();
-  const commandsPath = path.join(__dirname, "../commands");
-  const commandFiles = fs.readdirSync(commandsPath);
+  bot.commands = new Map();
 
-  // load commands
-  for (const file of commandFiles) {
-    const cmd = require(`../commands/${file}`);
+  const load = (dir) => {
+    const files = fs.readdirSync(dir);
 
-    if (!cmd.name || !cmd.execute) {
-      console.log(`❌ Invalid command: ${file}`);
-      continue;
+    for (const file of files) {
+      const full = path.join(dir, file);
+
+      if (fs.lstatSync(full).isDirectory()) return load(full);
+
+      const cmd = require(full);
+
+      if (!cmd.name || !cmd.execute) continue;
+
+      bot.commands.set(cmd.name, cmd);
+
+      if (cmd.aliases) {
+        cmd.aliases.forEach(a => bot.commands.set(a, cmd));
+      }
     }
+  };
 
-    commands.set(cmd.name, cmd);
-    console.log(`✅ Loaded command: ${cmd.name}`);
-  }
+  load(path.join(__dirname, "../commands"));
 
-  // message handler for args parsing
   bot.on("message:text", async (ctx) => {
-    const text = ctx.message.text;
+    if (!ctx.from || ctx.from.is_bot) return;
 
+    const text = ctx.message.text;
     if (!text.startsWith("/")) return;
 
     const parts = text.split(" ");
-    const commandName = parts[0].slice(1).toLowerCase();
+    const name = parts[0].slice(1).split("@")[0];
     const args = parts.slice(1);
 
-    const command = commands.get(commandName);
-    if (!command) return;
+    const cmd = bot.commands.get(name);
+    if (!cmd) return;
 
-    try {
-      await command.execute(ctx, args, bot);
-    } catch (err) {
-      console.error(err);
-      ctx.reply("❌ Error executing command");
-    }
+    if (cmd.isOwner && !isOwner(ctx)) return ctx.reply("❌ Owner only");
+    if (cmd.isAdmin && !(await isAdmin(ctx))) return ctx.reply("❌ Admin only");
+
+    await cmd.execute(ctx, args, bot);
   });
 };
