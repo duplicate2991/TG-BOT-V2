@@ -1,4 +1,4 @@
-const { owners, admins } = require("../config/config");
+const { owners, admins } = require("../config");
 
 function isOwner(ctx) {
   return owners.includes(ctx.from.id);
