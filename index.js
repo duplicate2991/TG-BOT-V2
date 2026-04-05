@@ -1,6 +1,6 @@
 const { Bot } = require("grammy");
 
-const { token } = require("./config/config");
+const { token } = require("./config");
 
 const bot = new Bot(token);
 
