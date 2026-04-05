@@ -4,7 +4,7 @@ const kb = new InlineKeyboard()
   .text("A", "a")
   .text("B", "b")
   .row()
-  .text("C", "c");
+  .text("🏓", "ping_btn");
 
 module.exports = {
   name: "ping",
