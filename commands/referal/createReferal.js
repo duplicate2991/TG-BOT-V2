@@ -10,7 +10,7 @@ function randomString(length = 6) {
 // example: aB3xY9
 module.exports = {
   name: "createReferal",
-  execute(ctx, args, bot) {
+  async execute(ctx, args, bot) {
     let code = randomString(); 
     RFCode[`${ctx.from.id}`] = {
       code, ttl: (Date.now() + (1000 * 60 ))
