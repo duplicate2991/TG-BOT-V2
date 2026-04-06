@@ -15,7 +15,7 @@ module.exports = {
     RFCode[`${ctx.from.id}`] = {
       code, ttl: (Date.now() + (1000 * 60 ))
     };
-    ctx.reply(`Code created: ${code}, Created By: @${ctx.from.username}`);
+    ctx.reply(`Code created: ${code}, Created By: @${ctx.from.username} \n\nLink: https://t.me/test69_v2_bot?start=${code}`);
     
     const userId = ctx.from.id;
     const user = await bot.api.getChat(userId);
