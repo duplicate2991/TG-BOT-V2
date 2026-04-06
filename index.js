@@ -1,6 +1,9 @@
 require("./express");
 const { Bot } = require("grammy");
 
+let RFCode = {};
+global.RFCode = RFCode;
+
 const { token } = require("./config");
 
 const bot = new Bot(token);
