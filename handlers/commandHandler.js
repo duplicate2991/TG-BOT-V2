@@ -11,8 +11,11 @@ module.exports = (bot) => {
     for (const file of files) {
       const full = path.join(dir, file);
 
-      if (fs.lstatSync(full).isDirectory()) return load(full);
-
+      if (fs.lstatSync(full).isDirectory()) {
+  load(full);
+  continue;
+      }
+      
       const cmd = require(full);
 
       if (!cmd.name || !cmd.execute){
