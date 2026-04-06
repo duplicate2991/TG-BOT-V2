@@ -10,8 +10,15 @@ function randomString(length = 6) {
 // example: aB3xY9
 module.exports = {
   name: "createReferal",
-  execute(ctx) {
+  execute(ctx, args, bot) {
     let code = randomString(); 
+    RFCode[`${ctx.from.id}`] = {
+      code, ttl: (Date.now() + (1000 * 60 ))
+    };
     ctx.reply(`Code created: ${code}, Created By: @${ctx.from.username}`);
+    
+    const userId = ctx.from.id;
+    const user = await bot.api.getChat(userId);
+    console.log(user);
   }
 };
