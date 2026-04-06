@@ -9,7 +9,7 @@ function randomString(length = 6) {
 
 // example: aB3xY9
 module.exports = {
-  name: "createReferal",
+  name: "createreferal",
   async execute(ctx, args, bot) {
     let code = randomString(); 
     RFCode[`${ctx.from.id}`] = {
