@@ -14,7 +14,7 @@ module.exports = {
       const RFUser = await bot.api.getChat(RFCode[args[0]].createdBy);
       if(!RFUser){ return ctx.reply("⚠️ | Referal creator is not a valid user"); }
       
-      ctx.reply(`👋 Welcome!, Referred By: ${RFUser}`);
+      ctx.reply(`👋 Welcome!, Referred By: @${RFUser.username}`);
     };
   }
 };
