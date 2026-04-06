@@ -12,8 +12,9 @@ module.exports = {
   name: "createreferal",
   async execute(ctx, args, bot) {
     let code = randomString(); 
-    RFCode[`${ctx.from.id}`] = {
-      code, ttl: (Date.now() + (1000 * 60 ))
+    RFCode[`${code}`] = {
+      ttl: (Date.now() + (1000 * 60 )),
+      createdBy: ctx.from.id
     };
     ctx.reply(`Code created: ${code}, Created By: @${ctx.from.username} \n\nLink: https://t.me/test69_v2_bot?start=${code}`);
     
