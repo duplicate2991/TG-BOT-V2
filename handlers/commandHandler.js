@@ -7,9 +7,8 @@ module.exports = (bot) => {
 
   const load = (dir) => {
     const files = fs.readdirSync(dir);
-
+    console.log(files);
     for (const file of files) {
-      console.log(file);
       const full = path.join(dir, file);
 
       if (fs.lstatSync(full).isDirectory()) return load(full);
